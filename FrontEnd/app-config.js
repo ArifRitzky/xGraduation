@@ -1,7 +1,7 @@
 // Alamat backend (tanpa garis miring di akhir).
 // Lokal: server jalan di port 3000 (npm run dev).
 // Saat deploy, ganti dengan alamat backend yang asli, misalnya "https://api.domainmu.com".
-window.PHOTOPROOFING_API = "xgraduation-api.netlify.app";
+window.PHOTOPROOFING_API = "https://xgraduation-api.netlify.app";
 
 // Client ID OAuth Google untuk tombol "Masuk dengan Google" di halaman login.
 // Dari Google Cloud Console: APIs & Services > Credentials > OAuth client ID > Web application.
