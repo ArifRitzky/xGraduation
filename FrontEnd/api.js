@@ -21,14 +21,15 @@ async function api(path, { method = "GET", body } = {}) {
       credentials: "include",
       headers: body !== undefined ? { "Content-Type": "application/json" } : undefined,
       body: body !== undefined ? JSON.stringify(body) : undefined,
-      // No timeout means a button could say "Processing..." forever if the server never responds
-      signal: AbortSignal.timeout(20000),
+      // No timeout means a button could say "Processing..." forever if the server never responds.
+      // 30s gives Netlify Functions room for a cold start (usually a few seconds, occasionally more).
+      signal: AbortSignal.timeout(30000),
     });
   } catch (err) {
     if (err.name === "TimeoutError") {
       throw new ApiError(
         0,
-        "The server didn't respond within 20 seconds. Make sure the backend is running (npm run dev), then try again.",
+        "The server didn't respond within 30 seconds. Make sure the backend is running (npm run dev), then try again.",
       );
     }
     throw new ApiError(
