@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email - Client Photo Proofing</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="dashboard-style.css">
+  <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-form-panel">
+      <div class="login-card" aria-labelledby="verifyTitle">
+        <h1 id="verifyTitle" class="login-title">Verifying your email</h1>
+        <p class="login-subtitle" id="verifyMessage">One moment...</p>
+
+        <p class="login-footer-link"><a href="login.html">Back to Log In</a></p>
+      </div>
+    </section>
+
+    <section class="auth-visual" aria-hidden="true">
+      <div class="auth-visual-photos">
+        <span class="bg-photo bg-photo-1"></span>
+        <span class="bg-photo bg-photo-2"></span>
+        <span class="bg-photo bg-photo-3"></span>
+        <span class="bg-photo bg-photo-4"></span>
+      </div>
+      <div class="auth-visual-scrim"></div>
+      <div class="auth-visual-inner">
+        <div class="auth-visual-copy">
+          <img class="auth-visual-logo" src="assets/logo-full.png" alt="xGraduation logo" width="150" height="28">
+          <p class="auth-eyebrow">Client Photo Proofing</p>
+          <h2 class="auth-visual-title">Let clients pick their favorites.</h2>
+          <p class="auth-visual-sub">Send one link. They browse the gallery, star their picks, and you get a clean shortlist back no more scattered email threads.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app-config.js"></script>
+  <script src="api.js"></script>
+  <script src="verify-email-script.js"></script>
+</body>
+</html>

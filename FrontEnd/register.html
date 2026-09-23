@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Client Photo Proofing</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="dashboard-style.css">
+  <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-form-panel">
+      <div class="login-card" aria-labelledby="registerTitle">
+        <h1 id="registerTitle" class="login-title">Create account</h1>
+        <p class="login-subtitle">Manage your own projects and photo-selection links for clients.</p>
+
+        <div id="googleSignInContainer" class="google-signin-container hidden"></div>
+        <div id="loginDivider" class="login-divider hidden"><span>or</span></div>
+        <p id="signupNotice" class="login-subtitle hidden" role="status"></p>
+
+        <form id="registerForm" class="hidden" novalidate>
+          <div class="input-group">
+            <label for="registerName">Name</label>
+            <input type="text" id="registerName" autocomplete="name" required>
+          </div>
+
+          <div class="input-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="input-group">
+            <div class="label-row">
+              <label for="registerPassword">Password</label>
+              <button type="button" id="toggleRegisterPassword" class="btn-text" aria-controls="registerPassword" aria-pressed="false">Show</button>
+            </div>
+            <input type="password" id="registerPassword" autocomplete="new-password" minlength="8" required>
+            <p class="input-hint">At least 8 characters.</p>
+          </div>
+
+          <div class="input-group">
+            <label for="registerPasswordConfirm">Confirm Password</label>
+            <input type="password" id="registerPasswordConfirm" autocomplete="new-password" required>
+          </div>
+
+          <p id="registerError" class="form-error hidden" role="alert"></p>
+
+          <button type="submit" id="registerBtn" class="btn-primary btn-block">Create Account</button>
+        </form>
+
+        <div id="registerSuccess" class="hidden" role="status">
+          <p class="login-subtitle">Account created! Check <strong id="registerSuccessEmail"></strong> to activate your account before logging in.</p>
+          <p class="input-hint">
+            Didn't get it? Check your spam folder, or
+            <button type="button" id="resendActivationBtn" class="btn-text">resend the activation email</button>.
+          </p>
+          <p id="resendActivationMsg" class="input-hint hidden"></p>
+        </div>
+
+        <p class="login-footer-link">Already have an account? <a href="login.html">Log In</a></p>
+      </div>
+    </section>
+
+    <section class="auth-visual" aria-hidden="true">
+      <div class="auth-visual-photos">
+        <span class="bg-photo bg-photo-1"></span>
+        <span class="bg-photo bg-photo-2"></span>
+        <span class="bg-photo bg-photo-3"></span>
+        <span class="bg-photo bg-photo-4"></span>
+      </div>
+      <div class="auth-visual-scrim"></div>
+      <div class="auth-visual-inner">
+        <div class="auth-visual-copy">
+          <img class="auth-visual-logo" src="assets/logo-full.png" alt="xGraduation logo" width="150" height="28">
+          <p class="auth-eyebrow">Client Photo Proofing</p>
+          <h2 class="auth-visual-title">Let clients pick their favorites.</h2>
+          <p class="auth-visual-sub">Send one link. They browse the gallery, star their picks, and you get a clean shortlist back no more scattered email threads.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app-config.js"></script>
+  <script src="api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="register-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,539 @@
+/* Base reset and typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 60% DOMINANT: Off-white background */
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  overscroll-behavior-y: none; /* Mencegah pantulan scroll berlebih di HP */
+}
+
+/* Sticky Header - 30% Secondary (White with gray border) */
+.client-header {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #d1d5db;
+  z-index: 10;
+  padding: 1rem;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05);
+}
+
+.header-content {
+  max-width: 1168px; /* 1200 dikurangi padding galeri 2 x 1rem, supaya tepi kiri sejajar dengan kartu foto */
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Logo: tinggi tetap, lebar mengikuti rasio; tidak ikut mengecil saat teks panjang */
+.brand-logo {
+  height: 2.5rem;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* min-width: 0 supaya nama project yang panjang membungkus, bukan mendorong layar ke kanan */
+.header-text {
+  min-width: 0;
+}
+
+.project-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827; /* 10% Accent text */
+  overflow-wrap: anywhere;
+}
+
+.selection-instruction {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* Main Photo Gallery (Mobile First Grid) */
+.gallery-container {
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Default 2 kolom untuk HP */
+  gap: 1rem;
+}
+
+/* Menjadi 3 kolom di tablet */
+@media (min-width: 640px) {
+  .gallery-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Menjadi 4 kolom di layar yang lebih lebar (laptop/desktop), supaya ruang
+   kiri-kanan yang lega termanfaatkan alih-alih cuma kolom di tengah */
+@media (min-width: 1024px) {
+  .gallery-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.photo-card {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-wrapper {
+  aspect-ratio: 4/3;
+  background-color: #e5e7eb;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-info {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-name {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #4b5563;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Button to select photo */
+.btn-select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  /* Default State: Unselected */
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
+}
+
+/* Selected State: 10% Accent (Solid Black) */
+.btn-select.selected {
+  background-color: #111827;
+  color: #ffffff;
+  border-color: #111827;
+}
+
+/* Spacer untuk mencegah foto terakhir tertutup bottom bar */
+.bottom-spacer {
+  height: 180px; 
+  grid-column: 1 / -1;
+}
+
+/* Persistent Bottom Bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border-top: 1px solid #d1d5db;
+  box-shadow: 0 -4px 10px -1px rgba(0,0,0,0.1);
+  z-index: 20;
+  padding: 1rem;
+}
+
+.bottom-bar-content {
+  max-width: 1168px; /* sejajar dengan tepi galeri, sama seperti header */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Status Row */
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selection-status {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.btn-reset {
+  background: none;
+  border: none;
+  color: #ef4444; /* Tetap merah untuk aksi hapus/reset */
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Selected Files Box */
+.selected-files-box {
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  color: #4b5563;
+  min-height: 2.5rem;
+  max-height: 4.5rem; /* Memberikan batas agar tidak terlalu tinggi */
+  overflow-y: auto;
+  word-break: break-word;
+}
+
+/* Action Buttons */
+.client-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-client-secondary {
+  flex: 1; /* Porsi tombol lebih kecil */
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #111827;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.btn-client-primary {
+  flex: 2; /* Porsi tombol lebih besar untuk akses utama */
+  background-color: #111827;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+/* Utility to hide elements (dialog, secondary dialog button, etc.) */
+.hidden {
+  display: none !important;
+}
+
+/* =========================================
+   CUSTOM DIALOG MODAL (POP-UP)
+   ========================================= */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.dialog-box {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 22rem;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: popIn 0.2s ease-out forwards;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-message {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* =========================================
+   LIGHTBOX PREVIEW FOTO
+   ========================================= */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.92);
+  z-index: 60; /* di atas bottom-bar (20) & header (10), di bawah custom dialog (100) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background-color: #111827;
+}
+
+.lightbox-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  max-width: 100%;
+}
+
+.lightbox-filename {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #111827;
+  word-break: break-all;
+}
+
+.lightbox-select-btn {
+  width: auto;
+  padding: 0.4rem 1rem;
+  white-space: nowrap;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-close {
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.lightbox-nav:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.lightbox-prev {
+  left: 1rem;
+}
+
+.lightbox-next {
+  right: 1rem;
+}
+
+@media (max-width: 480px) {
+  .lightbox-nav {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.5rem;
+  }
+
+  .lightbox-close {
+    width: 2.25rem;
+    height: 2.25rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+/* =========================================
+   TAMBAHAN: koneksi ke API (status, layar password, fokus)
+   ========================================= */
+button:focus-visible,
+.image-wrapper:focus-visible,
+.gate-input:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Pesan memuat / error / folder kosong, melebar sepanjang grid */
+.gallery-status {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.gallery-retry {
+  flex: none;
+  margin-top: 1rem;
+  padding: 0.6rem 1.25rem;
+}
+
+/* Foto yang belum punya thumbnail atau gagal dimuat */
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Layar password */
+.gate {
+  padding: 2rem 1rem;
+}
+
+.gate-card {
+  max-width: 22rem;
+  margin: 1.5rem auto 0;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.gate-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.gate-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4b5563;
+  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.gate-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.gate-input {
+  width: 100%;
+  padding: 0.6rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 1rem; /* 16px supaya iOS tidak memperbesar layar saat mengetik */
+}
+
+.gate-error {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #b91c1c;
+  margin-top: 0.75rem;
+}
+
+.gate-btn {
+  width: 100%;
+  flex: none;
+  margin-top: 1.25rem;
+}
+
+.gate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gate-back-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.gate-back-link:hover {
+  color: #111827;
+  text-decoration: underline;
+}

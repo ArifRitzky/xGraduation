@@ -1,0 +1,132 @@
+# Tes semua endpoint langsung dari VS Code.
+# Cara pakai:
+#   1. Install ekstensi "REST Client" (penulis: Huachao Mao) di VS Code.
+#   2. Siapkan satu folder TES di Google Drive: isi 5-10 foto, lalu Share > General access >
+#      "Anyone with the link" (peran Viewer). Salin linknya ke @driveFolderLink di bawah.
+#   3. Buka file ini, lalu klik "Send Request" yang muncul di atas tiap baris ###.
+#   4. Jalankan urut dari atas. Cookie login otomatis diingat ekstensi.
+#   5. Ganti email & password di langkah 2 sesuai admin yang kamu buat lewat "npm run seed:admin".
+#
+# PENTING: jangan simpan password asli di file ini kalau file ini di-commit ke Git atau dibagikan.
+
+@baseUrl = http://localhost:3000
+@driveFolderLink = https://drive.google.com/drive/folders/1KfCnb0jUhytRyLbTE-jBRyn13Wr7AF2r?usp=sharing
+
+### 1. Cek server & database
+GET {{baseUrl}}/health
+
+### 2. Login admin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "GANTI-DENGAN-EMAIL-ADMIN",
+  "password": "GANTI-DENGAN-PASSWORD-ADMIN"
+}
+
+### 3. Cek sesi (harus mengembalikan data admin)
+GET {{baseUrl}}/api/auth/me
+
+### 3b. Lupa password: minta link reset (cek log server kalau SMTP_HOST kosong - linknya dicetak di sana)
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "GANTI-DENGAN-EMAIL-ADMIN"
+}
+
+### 3c. Reset password (salin "token" dari link di email/log server)
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "GANTI-DENGAN-TOKEN-DARI-EMAIL",
+  "password": "password-baru-minimal-8-karakter"
+}
+
+### 3d. Verifikasi email (salin "token" dari link di email/log server)
+POST {{baseUrl}}/api/auth/verify-email
+Content-Type: application/json
+
+{
+  "token": "GANTI-DENGAN-TOKEN-DARI-EMAIL"
+}
+
+### 3e. Kirim ulang email verifikasi (butuh sesi login - jalankan #2 dulu)
+POST {{baseUrl}}/api/auth/verify-email/resend
+
+### 4. Buat project baru (nomor WA otomatis menjadi 6281234567890)
+# Server memeriksa folder ke Google dulu. Kalau dijawab 400, baca pesannya:
+# biasanya folder belum diatur "Anyone with the link", atau linknya bukan folder.
+# Kalau muncul "driveWarning" di response, project tersimpan tapi Google tidak bisa diperiksa saat itu.
+# @name createProject
+POST {{baseUrl}}/api/projects
+Content-Type: application/json
+
+{
+  "name": "Wedding J&D",
+  "driveFolderLink": "{{driveFolderLink}}",
+  "whatsappNumber": "0812-3456-7890",
+  "maxSelection": 10,
+  "clientPassword": "rahasia123"
+}
+
+### 5. Daftar semua project milik admin
+GET {{baseUrl}}/api/projects
+
+###
+@projectId = {{createProject.response.body.$.project.id}}
+
+### 6. Detail satu project
+GET {{baseUrl}}/api/projects/{{projectId}}
+
+### 7. Ubah sebagian field (ID dan link client tetap sama)
+PATCH {{baseUrl}}/api/projects/{{projectId}}
+Content-Type: application/json
+
+{
+  "maxSelection": 15,
+  "whatsappNumber": "+62 811 2233 4455"
+}
+
+### 8. Halaman client SEBELUM password benar (tidak boleh ada nomor WA / batas foto)
+GET {{baseUrl}}/api/client/{{projectId}}
+
+### 9. Daftar foto SEBELUM password benar (harus 401, tidak ada foto)
+GET {{baseUrl}}/api/client/{{projectId}}/photos
+
+### 10. Buka kunci dengan password SALAH (harus 401)
+POST {{baseUrl}}/api/client/{{projectId}}/unlock
+Content-Type: application/json
+
+{ "password": "salah-sengaja" }
+
+### 11. Buka kunci dengan password BENAR (sekarang muncul maxSelection & whatsappNumber)
+POST {{baseUrl}}/api/client/{{projectId}}/unlock
+Content-Type: application/json
+
+{ "password": "rahasia123" }
+
+### 12. Daftar foto SETELAH password benar (harus berisi foto dari folder tes, urut nama)
+# Yang perlu dicek: jumlah "total" sama dengan isi folder, nama file benar, dan alamat "thumb"
+# bisa dibuka di browser (salin-tempel) menampilkan gambar.
+GET {{baseUrl}}/api/client/{{projectId}}/photos
+
+### 13. Folder yang tidak ada / belum dibagikan (harus 400 dengan petunjuk, project TIDAK dibuat)
+POST {{baseUrl}}/api/projects
+Content-Type: application/json
+
+{
+  "name": "Tes folder salah",
+  "driveFolderLink": "https://drive.google.com/drive/folders/1AbCdEfGhIjKlMnOpQrStUvWxYz",
+  "whatsappNumber": "0812-3456-7890"
+}
+
+### 14. Hapus project
+DELETE {{baseUrl}}/api/projects/{{projectId}}
+
+### 15. Logout
+POST {{baseUrl}}/api/auth/logout
+
+### 16. Setelah logout, endpoint admin harus menolak (401)
+GET {{baseUrl}}/api/projects

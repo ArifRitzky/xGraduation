@@ -1,0 +1,629 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* Grayscale scale used everywhere below, so the "monochrome" theme stays
+   consistent instead of every component picking its own random gray. */
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-200: #e5e5e5;
+  --gray-100: #f0f0f0;
+  --gray-50: #fafafa;
+  --white: #ffffff;
+}
+
+/* Base reset and typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 60% DOMINANT: Off-white background for the main layout */
+body {
+  background-color: var(--gray-100);
+  color: var(--gray-900);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 1rem 2rem;
+}
+
+.nav-content {
+  max-width: 1136px; /* 1200 dikurangi padding kontainer 2 x 2rem, supaya sejajar dengan judul & tabel */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Logo + sapaan satu kelompok di kiri; Logout tetap di kanan */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0; /* supaya teks panjang terpotong "..." dan tidak menabrak Logout */
+}
+
+.brand-logo {
+  height: 1.75rem;
+  width: 1.75rem;
+  flex-shrink: 0;
+}
+
+.welcome-text {
+  font-weight: 500;
+  color: var(--gray-600);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Sedikit lebih rapat di layar sempit supaya navbar tidak terlalu lebar */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .brand-logo {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .nav-content {
+    align-items: flex-start;
+  }
+
+  .welcome-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.4;
+  }
+
+  .welcome-name {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+}
+
+/* Main layout containers */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* 30% SECONDARY: the table is the darkest-bordered, most-lifted surface on
+   the page so it stays legible against the gray background even though
+   everything is grayscale. A shadow (not just a border) is what actually
+   separates it from the page — a border alone reads as "same gray, thin line". */
+.table-container {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  box-shadow: 0 1px 2px rgba(10, 10, 12, 0.04), 0 8px 24px -12px rgba(10, 10, 12, 0.18);
+}
+
+.project-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.project-table th,
+.project-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 3px solid var(--gray-300);
+  border-right: 3px solid var(--gray-300);
+}
+
+.project-table th:last-child,
+.project-table td:last-child {
+  border-right: none;
+}
+
+/* Header is solid near-black, not another shade of light gray — that's the
+   anchor that makes the monochrome palette read as designed, not default. */
+.project-table th {
+  background-color: var(--gray-950);
+  color: var(--white);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.07em;
+  border-right-color: rgba(255, 255, 255, 0.14);
+}
+
+.project-table th:first-child {
+  border-top-left-radius: 0.6rem;
+}
+
+.project-table th:last-child {
+  border-top-right-radius: 0.6rem;
+}
+
+/* Faint zebra striping gives the eye row-tracking cues without adding a new color */
+.project-table tbody tr:nth-child(even) {
+  background-color: var(--gray-50);
+}
+
+.project-table tr:last-child td {
+  border-bottom: none;
+}
+
+.project-table tbody tr:hover {
+  background-color: var(--gray-100);
+}
+
+.client-link {
+  color: var(--gray-900);
+  text-decoration: underline;
+  text-decoration-color: var(--gray-400);
+  text-underline-offset: 0.15em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.client-link:hover {
+  color: var(--gray-600);
+}
+
+/* 10% ACCENT: Solid black for primary actions and highlights */
+.btn-primary {
+  background-color: var(--gray-900); /* Solid black accent */
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--gray-700);
+}
+
+.btn-secondary {
+  background-color: var(--white);
+  color: var(--gray-900);
+  border: 1px solid var(--gray-300);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--gray-100);
+}
+
+.btn-logout {
+  background-color: var(--white);
+  color: var(--gray-900);
+  border: 1px solid var(--gray-900);
+  padding: 0.4rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: var(--gray-900);
+  color: var(--white);
+}
+
+/* Action buttons inside table */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--gray-300);
+  background-color: var(--white);
+  color: var(--gray-900);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-action:hover {
+  background-color: var(--gray-100);
+}
+
+/* Modal Overlay & Content */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.4); /* Dimmed gray overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Gutter so modal-content never touches the screen edges on narrow
+     viewports (it was flush left/right below ~512px since modal-content
+     is width:100%). */
+  padding: 1.25rem;
+  z-index: 50;
+}
+
+.modal-content {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 100%;
+  overflow-y: auto;
+  border: 1px solid var(--gray-300); /* Secondary gray border */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+}
+
+.modal-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--gray-900);
+  font-weight: 700;
+}
+
+/* Form inputs inside modal */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.25rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.375rem;
+  outline: none;
+  background-color: var(--white);
+  color: var(--gray-900);
+}
+
+.input-group input:focus {
+  border-color: var(--gray-900);
+  box-shadow: 0 0 0 1px var(--gray-900);
+}
+
+/* "Remove password" checkbox row in the project modal: not a text field,
+   so it needs its own layout instead of .input-group input's width:100%. */
+.input-group-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.input-group-checkbox input {
+  width: auto;
+  margin-top: 0.15rem;
+  accent-color: var(--gray-900);
+  cursor: pointer;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================
+   CUSTOM DIALOG MODAL (POP-UP)
+   ========================================= */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.dialog-box {
+  background-color: var(--white);
+  width: 100%;
+  max-width: 22rem;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--gray-300);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: popIn 0.2s ease-out forwards;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.5rem;
+}
+
+.dialog-message {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+/* =========================================
+   TAMBAHAN: koneksi ke API (status, error, fokus)
+   ========================================= */
+/* Halaman disembunyikan sampai sesi login dipastikan, supaya tidak ada kilasan dashboard */
+.is-checking {
+  visibility: hidden;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gray-900);
+  outline-offset: 2px;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-logout:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 1rem;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-text:hover {
+  color: var(--gray-900);
+}
+
+.form-error {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #b91c1c;
+  margin-bottom: 1rem;
+}
+
+/* Email verification reminder banner (dashboard.html) */
+.verify-banner {
+  background-color: var(--gray-900);
+  color: var(--white);
+  padding: 0.65rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.verify-banner-btn {
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.verify-banner-btn:hover {
+  color: var(--gray-300);
+}
+
+.verify-banner-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.table-message {
+  text-align: center;
+  color: var(--gray-400);
+}
+
+.table-message .btn-action {
+  margin-left: 0.5rem;
+}
+
+/* =========================================
+   RESPONSIVE TABLE -> STACKED CARDS ON MOBILE
+   =========================================
+   Below 700px the table no longer scrolls sideways. Each row becomes its
+   own card: the folder name becomes a dark title strip (echoing the
+   desktop header color, so the mobile view isn't just flat white-on-white),
+   and the rest becomes label/value lines. This needs each <td> to carry a
+   data-label attribute — dashboard-script.js sets these when it builds
+   the rows (see renderProjects()). */
+@media (max-width: 700px) {
+  .table-container {
+    overflow-x: visible;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .project-table thead {
+    display: none;
+  }
+
+  .project-table,
+  .project-table tbody,
+  .project-table tr,
+  .project-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .project-table tbody tr {
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px rgba(10, 10, 12, 0.04), 0 8px 24px -12px rgba(10, 10, 12, 0.18);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .project-table tbody tr:nth-child(even) {
+    background-color: var(--white); /* zebra striping only makes sense row-to-row in a real table */
+  }
+
+  .project-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 3px solid var(--gray-200);
+    border-right: none;
+  }
+
+  /* The desktop rule ".project-table tr:last-child td { border-bottom: none; }"
+     above isn't scoped to desktop, so on mobile it strips the divider lines
+     out of whichever card happens to be the last <tr> in the DOM (i.e. the
+     oldest project, since newest is inserted first). This restores the
+     dividers for that card's middle cells specifically, so every card looks
+     the same regardless of how many projects there are. */
+  .project-table tbody tr:last-child td:not(:first-child):not(:last-child) {
+    border-bottom: 3px solid var(--gray-200);
+  }
+
+  .project-table tr td:last-child {
+    border-bottom: none;
+  }
+
+  /* Folder Name becomes the card's title strip — same near-black as the
+     desktop header, so the two views clearly belong to the same table. */
+  .project-table td[data-label="Folder Name"] {
+    background-color: var(--gray-950);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.9rem 1rem;
+    border-bottom: none;
+  }
+
+  /* Every other cell: small gray label on top, value below — clearer than
+     squeezing both onto one line, especially for long folder/URL text. */
+  .project-table td:not([data-label="Folder Name"])::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-400);
+    margin-bottom: 0.3rem;
+  }
+
+  .project-table td[data-label="Client Link"] .client-link {
+    word-break: break-all;
+  }
+
+  /* Actions sits on a light gray footer strip, so it reads as a distinct
+     zone instead of just more rows in the same white. */
+  .project-table td[data-label="Actions"] {
+    background-color: var(--gray-50);
+  }
+
+  .project-table .action-buttons {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-table .action-buttons .btn-action {
+    flex: 1 1 auto;
+  }
+
+  /* Loading / empty / error message row: no card chrome, no label needed */
+  .project-table td.table-message {
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 1.5rem 1rem;
+  }
+
+  .project-table td.table-message::before {
+    content: none;
+  }
+}

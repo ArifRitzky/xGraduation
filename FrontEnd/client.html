@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Photos</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="client-style.css">
+</head>
+<body>
+  <!-- Custom Dialog Modal -->
+<div id="customDialog" class="dialog-overlay hidden">
+  <div class="dialog-box">
+    <h3 id="dialogTitle" class="dialog-title">Notice</h3>
+    <p id="dialogMessage" class="dialog-message">Message goes here.</p>
+    <div class="dialog-actions">
+      <button id="dialogCancelBtn" class="btn-client-secondary hidden">Cancel</button>
+      <button id="dialogConfirmBtn" class="btn-client-primary">OK</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Sticky header for project info -->
+  <header class="client-header">
+    <div class="header-content">
+      <img class="brand-logo" src="assets/logo-mark.png" alt="xGraduation logo" width="40" height="40">
+      <div class="header-text">
+        <h1 class="project-name" id="projectNameHeading">Loading...</h1>
+        <p class="selection-instruction" id="selectionInstruction"></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Password gate screen (shown only if the project is locked) -->
+  <section id="passwordGate" class="gate hidden" aria-labelledby="gateTitle">
+    <form id="gateForm" class="gate-card" novalidate>
+      <h2 id="gateTitle" class="gate-title">These photos are password-protected</h2>
+      <p class="gate-text" id="gateText">Enter the password sent along with this link.</p>
+      <label class="gate-label" for="gatePassword">Password</label>
+      <input type="password" id="gatePassword" class="gate-input" autocomplete="current-password" required>
+      <p id="gateError" class="gate-error hidden" role="alert"></p>
+      <button type="submit" id="gateBtn" class="btn-client-primary gate-btn">Unlock Photos</button>
+      <a href="dashboard.html" class="gate-back-link">← Back to Dashboard</a>
+    </form>
+  </section>
+
+  <!-- Photo gallery (mobile-first grid). Photo cards are built by client-script.js from server data -->
+  <main class="gallery-container hidden" id="gallery">
+    <div class="gallery-status" id="galleryStatus" role="status"></div>
+  </main>
+
+  <!-- Persistent Bottom Bar -->
+  <nav class="bottom-bar hidden" id="bottomBar">
+    <div class="bottom-bar-content">
+
+      <!-- Status and Reset Row -->
+      <div class="status-row">
+        <span class="selection-status">Selected 0/10</span>
+        <button class="btn-reset" id="resetBtn">Reset</button>
+      </div>
+
+      <!-- Container for selected photo names -->
+      <div class="selected-files-box" id="selectedFilesContainer">
+        No photos selected yet
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="client-actions">
+        <button class="btn-client-secondary" id="copyBtn">Copy Only</button>
+        <button class="btn-client-primary" id="waBtn">Send WhatsApp</button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Photo Preview Lightbox -->
+  <div id="photoLightbox" class="lightbox-overlay hidden">
+    <button id="lightboxClose" class="lightbox-close" aria-label="Close preview">&times;</button>
+    <button id="lightboxPrev" class="lightbox-nav lightbox-prev" aria-label="Previous photo">&#8249;</button>
+    <button id="lightboxNext" class="lightbox-nav lightbox-next" aria-label="Next photo">&#8250;</button>
+    <div class="lightbox-content">
+      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-footer">
+        <span id="lightboxFileName" class="lightbox-filename"></span>
+        <button id="lightboxSelectBtn" class="btn-select lightbox-select-btn">Select</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app-config.js"></script>
+  <script src="api.js"></script>
+  <script src="client-script.js"></script>
+</body>
+</html>

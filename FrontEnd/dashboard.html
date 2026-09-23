@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Client Photo Proofing</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body class="is-checking">
+
+  <!-- Custom Dialog Modal -->
+  <div id="customDialog" class="dialog-overlay hidden">
+    <div class="dialog-box">
+      <h3 id="dialogTitle" class="dialog-title">Notice</h3>
+      <p id="dialogMessage" class="dialog-message">Message goes here.</p>
+      <div class="dialog-actions">
+        <button id="dialogCancelBtn" class="btn-secondary hidden">Cancel</button>
+        <button id="dialogConfirmBtn" class="btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top navigation bar -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="nav-brand">
+        <img class="brand-logo" src="assets/logo-mark.png" alt="xGraduation logo" width="32" height="32">
+        <span class="welcome-text">Welcome, <span class="welcome-name" id="welcomeName"></span></span>
+      </div>
+      <button id="logoutBtn" class="btn-logout">Log Out</button>
+    </div>
+  </nav>
+
+  <!-- Main dashboard content -->
+  <main class="dashboard-container">
+
+    <!-- Header section with new client button -->
+    <div class="dashboard-header">
+      <h1 class="page-title">Project List</h1>
+      <button id="newClientBtn" class="btn-primary">+ New Client</button>
+    </div>
+
+    <!-- Projects table container -->
+    <div class="table-container">
+      <table class="project-table">
+        <thead>
+          <tr>
+            <th>Folder Name</th>
+            <th>Date Created</th>
+            <th>Client Link</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="projectTableBody">
+          <!-- Rows filled in by dashboard-script.js from server data -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- New/Edit project modal overlay (hidden by default). Same modal is reused
+       for both: dashboard-script.js swaps the title/button text and pre-fills
+       the fields when opened in edit mode. -->
+  <div id="newProjectModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h2 class="modal-title" id="modalTitle">Create New Project</h2>
+
+      <!-- Project creation/edit form -->
+      <form id="newProjectForm">
+
+        <div class="input-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" id="projectName" placeholder="e.g. Wedding J&D" required>
+        </div>
+
+        <div class="input-group">
+          <label for="driveLink">Google Drive Folder Link</label>
+          <input type="url" id="driveLink" placeholder="https://drive.google.com/..." required>
+        </div>
+
+        <div class="input-group">
+          <label for="whatsappNum">Photographer WhatsApp Number (+62)</label>
+          <input type="tel" id="whatsappNum" placeholder="81234567890" required>
+        </div>
+
+        <div class="input-group">
+          <label for="projectPassword" id="projectPasswordLabel">Password (Optional)</label>
+          <input type="password" id="projectPassword" placeholder="Leave blank if not needed" autocomplete="new-password">
+        </div>
+
+        <!-- Only shown in edit mode, and only when the project currently has a password. -->
+        <div class="input-group input-group-checkbox hidden" id="removePasswordRow">
+          <label for="removePassword">
+            <input type="checkbox" id="removePassword">
+            Remove current password (make this project link open without one)
+          </label>
+        </div>
+
+        <div class="input-group">
+          <label for="maxSelection">Max Selection</label>
+          <input type="number" id="maxSelection" min="1" placeholder="e.g. 10" required>
+        </div>
+
+        <!-- Server error message (e.g. folder not shared) -->
+        <p id="formError" class="form-error hidden" role="alert"></p>
+
+        <!-- Modal action buttons -->
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" id="submitProjectBtn" class="btn-primary">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app-config.js"></script>
+  <script src="api.js"></script>
+  <script src="dashboard-script.js"></script>
+</body>
+</html>

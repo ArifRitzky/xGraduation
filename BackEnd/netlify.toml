@@ -1,0 +1,15 @@
+[build]
+  functions = "netlify/functions"
+
+# index.js mendaftarkan rute di bawah /api/* dan satu rute /health di root.
+# Redirect keduanya ke function yang sama, biar URL yang dipakai frontend
+# (mis. https://xgraduation-backend.netlify.app/api/auth/login) tidak berubah.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/api/health"
+  status = 200

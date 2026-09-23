@@ -1,0 +1,407 @@
+/* Halaman login/register: split-screen concept.
+   Kiri = form (pakai warna & input dari dashboard-style.css),
+   kanan = panel visual gelap dengan mockup grid foto. */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,480;9..144,560&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* Pin the split-screen to exactly one viewport on desktop - no page-level
+   scroll. Only from 901px up: below that the layout stacks (see the
+   901px query) and needs to scroll like a normal page. */
+@media (min-width: 901px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.auth-page {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+}
+
+/* ---------- Left: form panel ---------- */
+.auth-form-panel {
+  flex: 1 1 50%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  align-items: safe center; /* keep the top of the card reachable instead of
+    letting flex-centering clip it off-screen when the form (e.g. the
+    longer register form) is taller than the panel */
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: var(--white);
+  overflow-y: auto;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.login-title {
+  font-family: "Fraunces", Georgia, "Times New Roman", serif;
+  font-size: 1.85rem;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  color: var(--gray-950);
+  text-align: center;
+}
+
+.login-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--gray-600);
+  margin-top: 0.35rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.login-card form,
+.login-card .input-group {
+  text-align: left;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.label-row label {
+  margin-bottom: 0;
+}
+
+.google-signin-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--gray-400);
+  font-size: 0.8125rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--gray-200);
+}
+
+.login-footer-link {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--gray-600);
+}
+
+.login-footer-link a {
+  color: var(--gray-950);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer-link a:hover {
+  text-decoration: underline;
+}
+
+.input-hint {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--gray-400);
+}
+
+.input-hint a {
+  color: var(--gray-600);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.input-hint a:hover {
+  color: var(--gray-950);
+}
+
+/* Bigger, calmer inputs than the dashboard's compact modal fields */
+.login-card .input-group {
+  margin-bottom: 0.85rem;
+}
+
+.login-card .input-group input {
+  padding: 0.6rem 0.75rem;
+}
+
+.login-card .btn-primary.btn-block {
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+/* Thin, arrow-less scrollbar for the rare case a panel still needs to
+   scroll (very short windows) - avoids the clunky native up/down-arrow
+   scrollbar look. */
+.auth-form-panel,
+.auth-visual-inner {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) transparent;
+}
+
+.auth-form-panel::-webkit-scrollbar,
+.auth-visual-inner::-webkit-scrollbar {
+  width: 6px;
+}
+
+.auth-form-panel::-webkit-scrollbar-track,
+.auth-visual-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auth-form-panel::-webkit-scrollbar-thumb {
+  background-color: var(--gray-300);
+  border-radius: 3px;
+}
+
+.auth-visual-inner::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+}
+
+/* ---------- Right: visual panel ---------- */
+/* A calm, static panel - no tilted shapes or motion, just the pitch and
+   a mock screenshot of the gallery-selection experience itself. A warm,
+   low blurred glow keeps the dark background from reading as flat black. */
+.auth-visual {
+  flex: 1 1 50%;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-items: safe center;
+  justify-content: center;
+  background-color: var(--gray-950);
+  padding: 3rem;
+  overflow: hidden;
+}
+
+.auth-visual::before {
+  content: "";
+  position: absolute;
+  width: 38rem;
+  height: 38rem;
+  top: -12rem;
+  right: -10rem;
+  background: radial-gradient(circle, rgba(217, 160, 102, 0.16), transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.auth-visual::after {
+  content: "";
+  position: absolute;
+  width: 30rem;
+  height: 30rem;
+  bottom: -14rem;
+  left: -10rem;
+  background: radial-gradient(circle, rgba(90, 110, 120, 0.14), transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Scattered, monochrome, softly-blurred client photos sitting behind the
+   copy - a loose "photo pile" feel instead of a crisp foreground grid. */
+.auth-visual-photos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-photo {
+  position: absolute;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.5rem;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1) blur(7px);
+  opacity: 0.55;
+}
+
+.bg-photo-1 {
+  width: 44%;
+  top: -9%;
+  left: -8%;
+  transform: rotate(-8deg);
+  background-image: url("https://picsum.photos/seed/pgbg1/500/625");
+}
+
+.bg-photo-2 {
+  width: 38%;
+  top: 6%;
+  right: -9%;
+  transform: rotate(7deg);
+  background-image: url("https://picsum.photos/seed/pgbg2/500/625");
+}
+
+.bg-photo-3 {
+  width: 40%;
+  bottom: -11%;
+  left: 10%;
+  transform: rotate(5deg);
+  background-image: url("https://picsum.photos/seed/pgbg3/500/625");
+}
+
+.bg-photo-4 {
+  width: 34%;
+  bottom: -7%;
+  right: 6%;
+  transform: rotate(-6deg);
+  background-image: url("https://picsum.photos/seed/pgbg4/500/625");
+}
+
+/* Dark scrim above the photos, below the copy, so the text stays readable
+   over whatever the photos happen to be. */
+.auth-visual-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.62) 0%, rgba(10, 10, 10, 0.8) 100%);
+  pointer-events: none;
+}
+
+.auth-visual-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 28rem;
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.auth-visual-logo {
+  display: block;
+  height: 3.5rem;
+  width: auto;
+  /* Left-aligned (not auto-centered) so the logo sits flush with the
+     eyebrow/title/sub text below it instead of floating centered above
+     left-aligned copy. */
+  margin: 0 0 2rem;
+  /* logo-full.png is solid black on transparent - flip it to white so it
+     reads on the dark panel instead of swapping in a separate asset. */
+  filter: brightness(0) invert(1);
+}
+
+.auth-eyebrow {
+  color: var(--gray-400);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-visual-title {
+  font-family: "Fraunces", Georgia, "Times New Roman", serif;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  font-weight: 480;
+  color: var(--white);
+  margin-top: 0.75rem;
+}
+
+.auth-visual-sub {
+  color: var(--gray-300);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+/* Below ~900px, stack vertically instead of side-by-side: visual panel
+   on top (shorter), form below. The page is allowed to scroll normally
+   here (see the 901px query above) since a stacked layout is taller
+   than one mobile screen. */
+@media (max-width: 900px) {
+  html,
+  body {
+    height: auto;
+    overflow: visible;
+  }
+
+  .auth-page {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+  }
+
+  .auth-visual {
+    order: -1;
+    flex: 0 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-visual-inner {
+    max-height: none;
+    overflow-y: visible;
+    gap: 1.75rem;
+  }
+
+  /* Keep just the logo + headline on mobile - the eyebrow label and the
+     long pitch paragraph are dropped so the panel stays short and the
+     actual login/register form shows without scrolling. */
+  .auth-eyebrow,
+  .auth-visual-sub {
+    display: none;
+  }
+
+  .auth-visual-logo {
+    height: 3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .auth-visual-title {
+    font-size: 1.75rem;
+    margin-top: 0;
+  }
+
+  .auth-form-panel {
+    flex: 1 1 auto;
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form-panel {
+    padding: 1.5rem;
+  }
+
+  .auth-visual {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+  }
+
+  .auth-visual-logo {
+    height: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .auth-visual-title {
+    font-size: 1.5rem;
+  }
+
+  .bg-photo {
+    filter: grayscale(1) blur(5px);
+  }
+}
